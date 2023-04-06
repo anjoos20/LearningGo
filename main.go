@@ -49,8 +49,9 @@ func main() {
 		fmt.Scan (&userTickets)
 		
 		if remainingTickets < userTickets {
-			fmt.Printf("We only have %v tickets remaining, so you cant book %v tickets", remainingTickets, userTickets)
-			break
+			fmt.Printf("We only have %v tickets remaining, so you cant book %v tickets\n", remainingTickets, userTickets)
+			// break
+			continue
 		}
 
 		// Adding value to the slice
