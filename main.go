@@ -28,7 +28,8 @@ func main() {
 	//  Slices are also index-based and have a size but its resized when needed
 	// var bookingList []string
 	bookingList := []string {}
-	for {
+	// For loop to be executed only when a particular set of conditions are satisfied
+	for remainingTickets > 0 && len(bookingList) < 50 {
 		// Variable declaration without initialising and we need to specify the datatype if its not initialised
 		var firstName string
 		var lastName string
@@ -74,10 +75,5 @@ func main() {
 			firstNames = append(firstNames, names[0])
 		}
 		fmt.Printf("The first names of bookings are: %v\n", firstNames)
-
-		if remainingTickets == 0 {
-			fmt.Println("Our Conference is booked. Please come back later!")	
-			break
-		}
 	}
 }
