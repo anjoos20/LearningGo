@@ -4,7 +4,7 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 //Package level variables
@@ -18,8 +18,14 @@ const conferenceTickets int = 50
 
 var remainingTickets uint = 50
 var conferenceName = "Go Conference"
-var bookings = []string{}
-
+// Currently bookings variable is a slice of strings
+// var bookings = []string{}
+//  We need to make it into a slice of maps
+// Now it becoms a list of maps and not a list of strings
+// var bookings = []map[string]string{}
+// We need to actually create an empty slice of maps using the make function
+// This creates an empty slice of maps with an initial length and capacity of 0.
+var bookings = make([]map[string]string,0,0)
 func main() {
 
 	// Welcome message for the user
@@ -61,8 +67,10 @@ func printFirstNames() []string {
 	firstNames := []string{}
 
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		// var names = strings.Fields(booking)
+		// firstNames = append(firstNames, names[0])
+		// Accessing the first name becomes easy with the map
+		firstNames = append(firstNames,booking["firstName"])
 	}
 	return firstNames
 }
@@ -94,7 +102,23 @@ func greetUsers() {
 
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
-	bookings = append(bookings, firstName+" "+lastName)
+	//  Create map for a user
+	// This is just declaring the map type
+	// var mymap map[string]string
+	// To create an empty map we have a built in function called make
+	var userData = make(map[string]string)
+	//  Add key value pair to the map
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	//  In Go, maps can only have the same data types as keys and the same data type as values
+	// ie. we cannot mix various data types as values
+	// so cannot map with the usertickets which is a uint unless its converted to string using the builtin function
+	userData["numberOfTickets"]=strconv.FormatUint(uint64(userTickets),10)
+	
+	// Now we have the bookings list which contains all the user information
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings(map) is %v \n", bookings)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
