@@ -1,5 +1,5 @@
 // Define which package this file belongs to
-package main
+package helper
 
 import "strings"
 
