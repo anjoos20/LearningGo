@@ -1,8 +1,9 @@
 // Type "go run main.go helper.go " at the terminal to run this application
-// or use go run . BOOKING_APP
+// or use go run . inside the BOOKING_APPterminal
 package main
 
 import (
+	"booking-app/helper"
 	"fmt"
 	"strings"
 )
@@ -12,11 +13,11 @@ import (
 //Cannot use := for this but only var keyword
 //They can be accessed by all other files in the same package
 //The best practice is define a variable as local as possible and they can be accessed only inside
-// that function or block of code
-//Create the variable where you need it
-const conferenceTickets int = 50
+// that function or block of code. Create the variable where you need it
 
-var remainingTickets uint = 50
+const conferenceTickets int = 50
+// Package variables are not accessible outside a package. Exporting the variable by capitalising it
+var RemainingTickets uint = 50
 var conferenceName = "Go Conference"
 var bookings = []string{}
 
@@ -28,7 +29,7 @@ func main() {
 	for {
 
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets,RemainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {
 
@@ -37,7 +38,7 @@ func main() {
 			firstNames := printFirstNames()
 			fmt.Printf("The first names %v\n", firstNames)
 
-			if remainingTickets == 0 {
+			if RemainingTickets == 0 {
 				// end program
 				break
 			}
@@ -89,13 +90,13 @@ func getUserInput() (string, string, string, uint) {
 }
 
 func greetUsers() {
-	fmt.Printf("Welcome to %v booking application.\nWe have total of %v tickets and %v are still available.\nGet your tickets here to attend\n", conferenceName, conferenceTickets, remainingTickets)
+	fmt.Printf("Welcome to %v booking application.\nWe have total of %v tickets and %v are still available.\nGet your tickets here to attend\n", conferenceName, conferenceTickets, RemainingTickets)
 }
 
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
-	remainingTickets = remainingTickets - userTickets
+	RemainingTickets = RemainingTickets - userTickets
 	bookings = append(bookings, firstName+" "+lastName)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+	fmt.Printf("%v tickets remaining for %v\n", RemainingTickets, conferenceName)
 }
