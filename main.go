@@ -1,34 +1,31 @@
-// Type "go run main.go helper.go " at the terminal to run this application
-// or use go run . BOOKING_APP
 package main
 
 import (
 	"fmt"
-	"strconv"
+	"strings"
 )
 
-//Package level variables
-//Variables which are defined outside all thefunctions and are accessible by all the functions
-//Cannot use := for this but only var keyword
-//They can be accessed by all other files in the same package
-//The best practice is define a variable as local as possible and they can be accessed only inside
-// that function or block of code
-//Create the variable where you need it
 const conferenceTickets int = 50
 
 var remainingTickets uint = 50
 var conferenceName = "Go Conference"
-// Currently bookings variable is a slice of strings
-// var bookings = []string{}
-//  We need to make it into a slice of maps
-// Now it becoms a list of maps and not a list of strings
-// var bookings = []map[string]string{}
-// We need to actually create an empty slice of maps using the make function
-// This creates an empty slice of maps with an initial length 0.
-var bookings = make([]map[string]string,0)
+// Defining a list of userdtat structs
+//  Creates an empty list of empty data structs
+
+var bookings = make([]User, 0)
+
+// The type keyword creates a new type
+//  Create a type called User based on a struct of firstName, lastName, etc.
+// i.e. Mixed datatype plus defining a structure of the User Type
+type User struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
+
 func main() {
 
-	// Welcome message for the user
 	greetUsers()
 
 	for {
@@ -62,15 +59,11 @@ func main() {
 	}
 }
 
-// within the brackets input arguements and outside the bracket return parameter
 func printFirstNames() []string {
 	firstNames := []string{}
 
 	for _, booking := range bookings {
-		// var names = strings.Fields(booking)
-		// firstNames = append(firstNames, names[0])
-		// Accessing the first name becomes easy with the map
-		firstNames = append(firstNames,booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
@@ -96,30 +89,33 @@ func getUserInput() (string, string, string, uint) {
 	return firstName, lastName, email, userTickets
 }
 
+func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
+	isValidName := len(firstName) >= 2 && len(lastName) >= 2
+	isValidEmail := strings.Contains(email, "@")
+	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+	return isValidName, isValidEmail, isValidTicketNumber
+}
+
 func greetUsers() {
 	fmt.Printf("Welcome to %v booking application.\nWe have total of %v tickets and %v are still available.\nGet your tickets here to attend\n", conferenceName, conferenceTickets, remainingTickets)
 }
 
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
-	//  Create map for a user
-	// This is just declaring the map type
-	// var mymap map[string]string
-	// To create an empty map we have a built in function called make
-	var userData = make(map[string]string)
-	//  Add key value pair to the map
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	//  In Go, maps can only have the same data types as keys and the same data type as values
-	// ie. we cannot mix various data types as values
-	// so cannot map with the usertickets which is a uint unless its converted to string using the builtin function
-	userData["numberOfTickets"]=strconv.FormatUint(uint64(userTickets),10)
-	
-	// Now we have the bookings list which contains all the user information
-	bookings = append(bookings, userData)
-	fmt.Printf("List of bookings(map) is %v \n", bookings)
+
+	// create user struct
+	//  This will gibe us a user object with the user data
+	var user = User{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
+
+	bookings = append(bookings, user)
+	fmt.Printf("List of bookings is %v \n", bookings)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
+
