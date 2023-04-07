@@ -24,8 +24,8 @@ var conferenceName = "Go Conference"
 // Now it becoms a list of maps and not a list of strings
 // var bookings = []map[string]string{}
 // We need to actually create an empty slice of maps using the make function
-// This creates an empty slice of maps with an initial length and capacity of 0.
-var bookings = make([]map[string]string,0,0)
+// This creates an empty slice of maps with an initial length 0.
+var bookings = make([]map[string]string,0)
 func main() {
 
 	// Welcome message for the user
