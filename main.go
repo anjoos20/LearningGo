@@ -17,6 +17,7 @@ import (
 
 const conferenceTickets int = 50
 // Package variables are not accessible outside a package. Exporting the variable by capitalising it
+// And then it becomes the Global variable
 var RemainingTickets uint = 50
 var conferenceName = "Go Conference"
 var bookings = []string{}
