@@ -1,4 +1,5 @@
 // Type "go run main.go helper.go " at the terminal to run this application
+// or use go run . BOOKING_APP
 package main
 
 import (
