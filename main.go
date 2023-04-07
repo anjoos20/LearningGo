@@ -1,4 +1,4 @@
-// Type "go run main.go " at the terminal to run this application
+// Type "go run main.go helper.go " at the terminal to run this application
 package main
 
 import (
@@ -9,6 +9,7 @@ import (
 //Package level variables
 //Variables which are defined outside all thefunctions and are accessible by all the functions
 //Cannot use := for this but only var keyword
+//They can be accessed by all other files in the same package
 //The best practice is define a variable as local as possible and they can be accessed only inside
 // that function or block of code
 //Create the variable where you need it
@@ -84,13 +85,6 @@ func getUserInput() (string, string, string, uint) {
 	fmt.Scanln(&userTickets)
 
 	return firstName, lastName, email, userTickets
-}
-//  Multiple returns included inside a paranthesis
-func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
 }
 
 func greetUsers() {

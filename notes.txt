@@ -1,0 +1,7 @@
+How to modularize the application - can the application consist of multiple files?
+
+Go programs are organised into packages
+A package is a collection of Go files which can be 1 file or several files
+We have a package called main and a go file for that - main.go.
+But if our go file gets larger we can split them into multiple files
+eg: in this tutorial - helper.go contain helper functions of the main application
