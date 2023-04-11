@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 )
 
@@ -26,10 +25,10 @@ func main() {
 
 func readFile(fileName string){
 	// Normally, when we read the file, it will be in the byte format
-	databyte,err := ioutil.ReadFile(fileName)
-	// error handling function
+	databyte,err := os.ReadFile(fileName)
+	// error handling functio
 	checkNilErr(err)
-	fmt.Println("Text data iside the file is: \n " , string(databyte))
+	fmt.Println("Text data inside the file is: \n " , string(databyte))
 }
 
 func checkNilErr(err error){
